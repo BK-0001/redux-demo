@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type DocType = {
+export type DocType = {
   id: number;
   title: string;
   body: string;
@@ -26,9 +26,12 @@ const docsSlice = createSlice({
   reducers: {
     add: (state, action: PayloadAction<DocType>) => {
       state.items.push(action.payload);
+    },
+    remove: (state, action: PayloadAction<DocType["id"]>) => {
+      state.items = state.items.filter((item) => item.id !== action.payload);
     }
   }
 });
 
-export const { add } = docsSlice.actions;
+export const { add, remove } = docsSlice.actions;
 export const docsReducer = docsSlice.reducer;

@@ -1,11 +1,19 @@
-import { FormEvent } from "react";
+import { FormEvent, useEffect } from "react";
 import "./App.css";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
-import { add, DocType, remove } from "./features/docs/docsSlice";
+import { add, DocType, getProducts, remove } from "./features/docs/docsSlice";
 
 export function Documents() {
-  const documents = useAppSelector((state) => state.docs.items);
+  const {
+    items: documents,
+    error,
+    isLoading
+  } = useAppSelector((state) => state.docs);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -23,6 +31,14 @@ export function Documents() {
   const handleDelete = (id: DocType["id"]) => {
     dispatch(remove(id));
   };
+
+  if (error) {
+    return <p>Something has gone wrong! {error.message}</p>;
+  }
+
+  if (isLoading) {
+    return <p>loading...</p>;
+  }
 
   return (
     <div>

@@ -1,12 +1,11 @@
 import { FormEvent } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
-import { RootState } from "./app/store";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { add, DocType, remove } from "./features/docs/docsSlice";
 
 export function Documents() {
-  const documents = useSelector((state: RootState) => state.docs.items);
-  const dispatch = useDispatch();
+  const documents = useAppSelector((state) => state.docs.items);
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
